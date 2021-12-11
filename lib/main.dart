@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:just66/home_page.dart';
+import 'package:just66/main_app_bar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.lightGreen,
       ),
-      home: const HomePage(),
+      home: const MainAppBar(),
     );
   }
 }
