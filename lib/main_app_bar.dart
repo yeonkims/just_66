@@ -17,7 +17,7 @@ class _MainAppBarState extends State<MainAppBar> {
       appBar: AppBar(
         title: const Text("66 Days"),
       ),
-      body: const HabitListPage(),
+      body: HabitListPage(),
     );
   }
 }
