@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:just66/habit_list_page.dart';
+import 'package:just66/presentation/pages/habit_list_page/habit_list_page.dart';
 
 class MainAppBar extends StatefulWidget {
   const MainAppBar({Key? key}) : super(key: key);
