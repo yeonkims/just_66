@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:just66/presentation/extra_widgets/custom_title.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
 import '../../../data/models/habit.dart';
@@ -35,7 +36,7 @@ class HabitListPage extends StatelessWidget {
       child: Column(
         children: [
           HabitListSummaryCard(),
-          _habitListTitle(context),
+          CustomTitle(title: "My habit list"),
           _habitList(),
         ],
       ),
@@ -47,22 +48,6 @@ class HabitListPage extends StatelessWidget {
       child: ListView.builder(
           itemCount: habits.length,
           itemBuilder: (context, index) => HabitWidget(habit: habits[index])),
-    );
-  }
-
-  SizedBox _habitListTitle(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: Padding(
-        padding: EdgeInsets.only(left: 24.0, top: 20.0),
-        child: Text(
-          "My habit list",
-          textAlign: TextAlign.start,
-          style: Theme.of(context).textTheme.headline6?.copyWith(
-                decoration: TextDecoration.underline,
-              ),
-        ),
-      ),
     );
   }
 }

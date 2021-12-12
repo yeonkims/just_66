@@ -77,11 +77,15 @@ class HabitWidget extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
-            child: Text(
-              habit.title,
-              style: Theme.of(context).textTheme.headline6?.copyWith(
-                  fontWeight:
-                      (habit.completed ? FontWeight.normal : FontWeight.bold)),
+            child: Hero(
+              tag: habit,
+              child: Text(
+                habit.title,
+                style: Theme.of(context).textTheme.headline6?.copyWith(
+                    fontWeight: (habit.completed
+                        ? FontWeight.normal
+                        : FontWeight.bold)),
+              ),
             ),
           ),
           SizedBox(
