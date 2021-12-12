@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:just66/data/models/habit.dart';
-import 'package:just66/presentation/extra_widgets/habit_checkbox.dart';
-import 'package:just66/presentation/pages/habit_detail_page.dart';
+import '../../../data/models/habit.dart';
+import '../../extra_widgets/habit_checkbox.dart';
+import '../habit_detail_page.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
 class HabitWidget extends StatelessWidget {
