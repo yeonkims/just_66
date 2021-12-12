@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:just66/presentation/pages/habit_list_page/habit_list_page.dart';
+import 'package:just66/presentation/pages/under_construction_page.dart';
 
 class MainAppBar extends StatefulWidget {
   const MainAppBar({Key? key}) : super(key: key);
@@ -14,9 +15,6 @@ class _MainAppBarState extends State<MainAppBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("66 Days"),
-      ),
       body: HabitListPage(),
     );
   }

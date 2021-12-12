@@ -53,7 +53,7 @@ class _HabitCheckboxState extends State<HabitCheckbox>
               (checked
                   ? FontAwesomeIcons.solidCheckCircle
                   : FontAwesomeIcons.checkCircle),
-              size: sizeAnimation.value * 12 + 24,
+              size: sizeAnimation.value * 12 + 16,
               color: (checked ? Theme.of(context).primaryColor : Colors.grey),
             ),
           ),
