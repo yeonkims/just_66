@@ -15,17 +15,17 @@ class HabitListPage extends StatelessWidget {
   final List<Habit> habits = [
     Habit(
       title: "집 청소 상태 유지하기",
-      days: 15,
+      startDate: DateTime.now(),
       completed: true,
     ),
     Habit(
       title: "책 매일 읽기",
-      days: 20,
+      startDate: DateTime.now(),
       completed: false,
     ),
     Habit(
       title: "머리 말리고 자기",
-      days: 3,
+      startDate: DateTime.now(),
       completed: true,
     ),
   ];

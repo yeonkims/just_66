@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:just66/presentation/utils/navigation_helpers.dart';
 import '../../../data/models/habit.dart';
 import '../../extra_widgets/habit_checkbox.dart';
 import '../habit_detail_page.dart';
@@ -31,7 +32,7 @@ class HabitWidget extends StatelessWidget {
           child: InkWell(
             borderRadius: cardRadius,
             onTap: () {
-              _goToNewPage(context);
+              context.openPage(HabitDetailPage(habit: habit));
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(
@@ -60,12 +61,6 @@ class HabitWidget extends StatelessWidget {
         color: Colors.grey,
         size: 16,
       ),
-    );
-  }
-
-  _goToNewPage(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => HabitDetailPage(habit: habit)),
     );
   }
 
