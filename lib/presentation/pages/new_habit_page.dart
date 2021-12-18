@@ -1,8 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
+import 'package:just66/data/models/habit.dart';
+import 'package:just66/logic/repositories/habit_respository.dart';
 import 'package:just66/presentation/extra_widgets/custom_title.dart';
 import 'package:just66/presentation/utils/navigation_helpers.dart';
+import 'package:provider/provider.dart';
 
 class NewHabitPage extends StatefulWidget {
   NewHabitPage({Key? key}) : super(key: key);
@@ -13,6 +16,8 @@ class NewHabitPage extends StatefulWidget {
 
 class _NewHabitPageState extends State<NewHabitPage> {
   final _formKey = GlobalKey<FormState>();
+
+  final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +46,12 @@ class _NewHabitPageState extends State<NewHabitPage> {
         child: ElevatedButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              //create new habit...
+              final newHabit = Habit(
+                  title: _controller.text,
+                  startDate: DateTime.now(),
+                  completed: false);
+              Provider.of<HabitRepository>(context, listen: false)
+                  .createHabit(newHabit);
               context.closePage();
             }
           },
@@ -64,6 +74,7 @@ class _NewHabitPageState extends State<NewHabitPage> {
             vertical: 8,
           ),
           child: TextFormField(
+            controller: _controller,
             validator: (value) {
               if (value?.isEmpty ?? true) {
                 return "Write your new habit!";

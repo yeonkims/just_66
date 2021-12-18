@@ -24,8 +24,8 @@ class Habit extends Equatable {
     return {
       'habit_id': id,
       'title': title,
-      'start_date': startDate,
-      'completed': completed,
+      'start_date': startDate.toIso8601String(),
+      'completed': completed ? 1 : 0,
     };
   }
 
@@ -33,8 +33,8 @@ class Habit extends Equatable {
     return Habit(
       id: map['habit_id']?.toInt(),
       title: map['title'] ?? '',
-      startDate: map['start_date']?.toInt() ?? 0,
-      completed: map['completed'] ?? false,
+      startDate: DateTime.parse(map['start_date']),
+      completed: map['completed'] == 1,
     );
   }
 

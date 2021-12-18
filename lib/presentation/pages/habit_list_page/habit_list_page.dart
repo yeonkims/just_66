@@ -2,33 +2,27 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:just66/logic/repositories/habit_respository.dart';
 import 'package:just66/presentation/extra_widgets/custom_title.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
+import 'package:provider/provider.dart';
 
 import '../../../data/models/habit.dart';
 import '../habit_list_page/habit_widget.dart';
 import 'habit_list_summary_card.dart';
 
-class HabitListPage extends StatelessWidget {
+class HabitListPage extends StatefulWidget {
   HabitListPage({Key? key}) : super(key: key);
 
-  final List<Habit> habits = [
-    Habit(
-      title: "집 청소 상태 유지하기",
-      startDate: DateTime.now(),
-      completed: true,
-    ),
-    Habit(
-      title: "책 매일 읽기",
-      startDate: DateTime.now(),
-      completed: false,
-    ),
-    Habit(
-      title: "머리 말리고 자기",
-      startDate: DateTime.now(),
-      completed: true,
-    ),
-  ];
+  @override
+  State<HabitListPage> createState() => _HabitListPageState();
+}
+
+class _HabitListPageState extends State<HabitListPage> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,17 +31,29 @@ class HabitListPage extends StatelessWidget {
         children: [
           HabitListSummaryCard(),
           CustomTitle(title: "My habit list"),
-          _habitList(),
+          Expanded(child: _habitList()),
         ],
       ),
     );
   }
 
-  Expanded _habitList() {
-    return Expanded(
-      child: ListView.builder(
-          itemCount: habits.length,
-          itemBuilder: (context, index) => HabitWidget(habit: habits[index])),
+  Widget _habitList() {
+    return StreamBuilder<List<Habit>>(
+      stream: Provider.of<HabitRepository>(context).getAllHabits(),
+      builder: (ctx, habitsSnapshot) {
+        if (!habitsSnapshot.hasData) {
+          return Center(child: CircularProgressIndicator());
+        } else if (habitsSnapshot.data!.isEmpty) {
+          return Center(
+              child: Text("You have no habits yet. Please create one."));
+        } else {
+          final habits = habitsSnapshot.data!;
+          return ListView.builder(
+              itemCount: habits.length,
+              itemBuilder: (context, index) =>
+                  HabitWidget(habit: habits[index]));
+        }
+      },
     );
   }
 }
