@@ -8,6 +8,8 @@ abstract class HabitRepository {
 
   Stream<List<Habit>> getAllHabits();
 
+  Stream<List<Record>> getAllRecords();
+
   Future<int> createRecord(Record record);
 
   Future<int> deleteRecord(int id);

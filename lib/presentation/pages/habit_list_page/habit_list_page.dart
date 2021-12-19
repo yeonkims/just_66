@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:just66/data/models/record.dart';
 import 'package:just66/logic/repositories/habit_respository.dart';
 import 'package:just66/presentation/extra_widgets/custom_title.dart';
 import 'package:provider/provider.dart';
@@ -25,16 +26,44 @@ class _HabitListPageState extends State<HabitListPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Column(
-        children: [
-          StreamBuilder<List<Habit>>(
-              stream: Provider.of<HabitRepository>(context).getAllHabits(),
-              builder: (context, snapshot) {
-                return HabitListSummaryCard(habits: snapshot.data ?? []);
-              }),
-          CustomTitle(title: "My habit list"),
-          Expanded(child: _habitList()),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            _mainLabel(context),
+            StreamBuilder<List<Habit>>(
+                stream: Provider.of<HabitRepository>(context).getAllHabits(),
+                builder: (context, snapshot) {
+                  return HabitListSummaryCard(habits: snapshot.data ?? []);
+                }),
+            CustomTitle(title: "My habit list"),
+            Expanded(child: _habitList()),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Padding _mainLabel(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: SizedBox(
+        width: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Make your habits,",
+              style: Theme.of(context).textTheme.headline5?.copyWith(
+                    color: Colors.grey[600],
+                  ),
+            ),
+            Text(
+              "just in 66 days!",
+              style: Theme.of(context).textTheme.headline5,
+            ),
+          ],
+        ),
       ),
     );
   }

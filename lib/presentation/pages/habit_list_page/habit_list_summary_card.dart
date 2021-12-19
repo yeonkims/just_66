@@ -17,9 +17,9 @@ class HabitListSummaryCard extends StatelessWidget {
       height: 140,
       child: Card(
         margin: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(24.0)),
-        ),
+        elevation: 0.0,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0)),
         color: Colors.blue[100],
         child: Row(
           children: [
@@ -30,14 +30,14 @@ class HabitListSummaryCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 4.0, bottom: 4.0),
+                    padding: const EdgeInsets.all(4.0),
                     child: Text(
-                      "Good Morning!",
+                      "Welcome!",
                       style: Theme.of(context).textTheme.headline6,
                     ),
                   ),
                   Text(
-                      "오늘 당신이 채운 당신의 습관의 물입니다. 100%를 채울때까지 열심히 노력해 보십시오. 화이팅...!"),
+                      "The right one is the water of the habit you filled today. "),
                 ],
               ),
             )),
@@ -71,6 +71,6 @@ class HabitListSummaryCard extends StatelessWidget {
     final completedHabits = habits.where((habit) {
       return habit.isTodayRecorded();
     });
-    return completedHabits.length / habits.length;
+    return habits.isEmpty ? 0 : completedHabits.length / habits.length;
   }
 }

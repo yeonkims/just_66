@@ -15,13 +15,11 @@ class CustomTitle extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: Padding(
-        padding: EdgeInsets.only(left: 24.0, top: 20.0),
+        padding: EdgeInsets.only(top: 20.0),
         child: Text(
           title,
           textAlign: TextAlign.start,
-          style: Theme.of(context).textTheme.headline6?.copyWith(
-                decoration: TextDecoration.underline,
-              ),
+          style: Theme.of(context).textTheme.headline6,
         ),
       ),
     );

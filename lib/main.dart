@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.lightBlue,
+          fontFamily: "Poppins",
         ),
         home: const MainNavBar(),
       ),

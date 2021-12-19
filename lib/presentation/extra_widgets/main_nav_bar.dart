@@ -20,6 +20,7 @@ class _MainNavBarState extends State<MainNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       body: IndexedStack(
         index: index,
         children: [

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:just66/data/models/record.dart';
@@ -23,14 +25,14 @@ class HabitWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        left: 8.0,
-        right: 8.0,
         top: 8.0,
         bottom: 2.0,
       ),
       child: SizedBox(
         width: double.infinity,
         child: Card(
+          margin: EdgeInsets.all(0.0),
+          elevation: 0.0,
           shape: RoundedRectangleBorder(borderRadius: cardRadius),
           child: InkWell(
             borderRadius: cardRadius,

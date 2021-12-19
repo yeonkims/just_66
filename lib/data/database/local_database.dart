@@ -6,7 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class LocalDatabase {
-  final int dbVersion = 2;
+  final int dbVersion = 3;
 
   static Database? _db;
 
@@ -31,7 +31,10 @@ class LocalDatabase {
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "test.db");
     Database theDB = await openDatabase(path,
-        version: dbVersion, onCreate: _onCreate, onUpgrade: _onUpgrade);
+        version: dbVersion,
+        onCreate: _onCreate,
+        onUpgrade: _onUpgrade,
+        onConfigure: _onConfigure);
     return theDB;
   }
 
@@ -59,5 +62,18 @@ class LocalDatabase {
       await db.execute(
           "CREATE TABLE record(record_id INTEGER PRIMARY KEY, record_date TEXT, habit_fid INTEGER REFERENCES habit(habit_id) ON UPDATE CASCADE ON DELETE CASCADE)");
     }
+    if (version == 3) {
+      await db.execute("DROP TABLE record");
+      await db.execute("""CREATE TABLE record(
+            record_id INTEGER PRIMARY KEY,
+            record_date TEXT,
+            habit_fid INTEGER,
+            FOREIGN KEY (habit_fid) REFERENCES habit(habit_id) ON DELETE CASCADE
+          )""");
+    }
+  }
+
+  FutureOr<void> _onConfigure(Database db) async {
+    await db.execute("PRAGMA foreign_keys = ON");
   }
 }

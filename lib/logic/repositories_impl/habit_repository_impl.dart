@@ -25,6 +25,7 @@ class HabitRepositoryImpl extends HabitRepository {
     (SELECT COUNT(record_id) FROM record r2 WHERE habit_id = r2.habit_fid) AS recorded_days
     FROM habit LEFT JOIN record r1 ON habit_id = r1.habit_fid AND DATE(record_date) = DATE('now')
     """).mapToList((habitMap) {
+      print(habitMap);
       return Habit.fromMap(habitMap);
     });
   }
@@ -37,5 +38,14 @@ class HabitRepositoryImpl extends HabitRepository {
   @override
   Future<int> deleteRecord(int id) {
     return db.delete("record", where: "record_id = $id");
+  }
+
+  @override
+  Stream<List<Record>> getAllRecords() {
+    return db.createRawQuery(
+        ["record", "habit"], "SELECT * FROM record").mapToList((recordMap) {
+      print(recordMap);
+      return Record.fromMap(recordMap);
+    });
   }
 }
