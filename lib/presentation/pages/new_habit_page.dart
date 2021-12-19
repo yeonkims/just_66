@@ -75,6 +75,8 @@ class _NewHabitPageState extends State<NewHabitPage> {
           ),
           child: TextFormField(
             controller: _controller,
+            autofocus: true,
+            textCapitalization: TextCapitalization.words,
             validator: (value) {
               if (value?.isEmpty ?? true) {
                 return "Write your new habit!";

@@ -1,20 +1,31 @@
+// ignore_for_file: prefer_const_constructors_in_immutables
+
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
+import 'package:just66/data/models/record.dart';
+import 'package:just66/presentation/utils/datetime_helpers.dart';
 
 class Habit extends Equatable {
-  int? id;
-  String title;
-  DateTime startDate;
-  bool completed;
+  final int? id;
+  final String title;
+  final DateTime startDate;
+  final bool completed;
 
-  int days = 10;
+  final Record? todaysRecord;
+  final int recordedDays;
+
+  bool isTodayRecorded() {
+    return todaysRecord != null;
+  }
 
   Habit({
     this.id,
     required this.title,
     required this.completed,
     required this.startDate,
+    this.todaysRecord,
+    this.recordedDays = 0,
   });
 
   @override
@@ -24,7 +35,7 @@ class Habit extends Equatable {
     return {
       'habit_id': id,
       'title': title,
-      'start_date': startDate.toIso8601String(),
+      'start_date': startDate.toYMD(),
       'completed': completed ? 1 : 0,
     };
   }
@@ -33,8 +44,10 @@ class Habit extends Equatable {
     return Habit(
       id: map['habit_id']?.toInt(),
       title: map['title'] ?? '',
-      startDate: DateTime.parse(map['start_date']),
+      startDate: DateTimeHelpers.fromYMD(map['start_date']),
       completed: map['completed'] == 1,
+      todaysRecord: map['record_id'] == null ? null : Record.fromMap(map),
+      recordedDays: map['recorded_days'],
     );
   }
 

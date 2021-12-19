@@ -4,7 +4,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:just66/logic/repositories/habit_respository.dart';
 import 'package:just66/presentation/extra_widgets/custom_title.dart';
+import 'package:provider/provider.dart';
 
 import '../../data/models/habit.dart';
 
@@ -33,7 +35,7 @@ class HabitDetailPage extends StatelessWidget {
                     _breakdownGrid()
                   ],
                 ),
-                _headerButtons(),
+                _headerButtons(context),
               ],
             ),
           ),
@@ -56,14 +58,18 @@ class HabitDetailPage extends StatelessWidget {
     );
   }
 
-  Row _headerButtons() {
+  Row _headerButtons(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         BackButton(),
         IconButton(
-          onPressed: () {},
-          icon: FaIcon(FontAwesomeIcons.ellipsisV),
+          onPressed: () {
+            Provider.of<HabitRepository>(context, listen: false)
+                .deleteHabit(habit.id!);
+            Navigator.pop(context);
+          },
+          icon: FaIcon(FontAwesomeIcons.trashAlt),
         ),
       ],
     );
@@ -93,7 +99,7 @@ class HabitDetailPage extends StatelessWidget {
                           : Theme.of(context).primaryColor),
                 ),
               ),
-              itemCount: habit.days,
+              itemCount: habit.recordedDays,
             ),
           ),
         ),
@@ -118,7 +124,7 @@ class HabitDetailPage extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           Text(
-            "${habit.days}/66\ndays",
+            "${habit.recordedDays}/66\ndays",
             style: Theme.of(context).textTheme.headline5,
             textAlign: TextAlign.center,
           ),
@@ -127,7 +133,7 @@ class HabitDetailPage extends StatelessWidget {
             height: 120,
             child: CircularProgressIndicator(
               backgroundColor: Colors.grey[350],
-              value: habit.days / 66,
+              value: habit.recordedDays / 66,
               strokeWidth: 6.5,
             ),
           ),

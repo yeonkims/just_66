@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:just66/data/database/local_database.dart';
-import 'package:just66/logic/repositories/habit_respository.dart';
-import 'package:just66/logic/repositories_impl/habit_repository_impl.dart';
+import 'data/database/local_database.dart';
+import 'logic/repositories/habit_respository.dart';
+import 'logic/repositories_impl/habit_repository_impl.dart';
 import 'package:sqlbrite/sqlbrite.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:provider/provider.dart';

@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:just66/data/models/habit.dart';
+import 'package:just66/data/models/record.dart';
+import 'package:just66/logic/repositories/habit_respository.dart';
+import 'package:provider/provider.dart';
 
-class HabitCheckbox extends StatefulWidget {
-  const HabitCheckbox({required this.checked, Key? key}) : super(key: key);
+class AnimatedCheckbox extends StatefulWidget {
+  const AnimatedCheckbox(
+      {required this.checked, required this.onChanged, Key? key})
+      : super(key: key);
   final bool checked;
+  final Function(bool) onChanged;
   //todo: add onTap;
 
   @override
-  State<HabitCheckbox> createState() => _HabitCheckboxState();
+  State<AnimatedCheckbox> createState() => _AnimatedCheckboxState();
 }
 
-class _HabitCheckboxState extends State<HabitCheckbox>
+class _AnimatedCheckboxState extends State<AnimatedCheckbox>
     with SingleTickerProviderStateMixin {
-  late bool checked;
   late AnimationController controller;
   late Animation<double> sizeAnimation;
 
   @override
   void initState() {
     super.initState();
-
-    checked = widget.checked;
-
     controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1200),
@@ -50,11 +53,13 @@ class _HabitCheckboxState extends State<HabitCheckbox>
           padding: const EdgeInsets.all(4.0),
           child: Center(
             child: FaIcon(
-              (checked
+              (widget.checked
                   ? FontAwesomeIcons.solidCheckCircle
                   : FontAwesomeIcons.checkCircle),
               size: sizeAnimation.value * 12 + 16,
-              color: (checked ? Theme.of(context).primaryColor : Colors.grey),
+              color: (widget.checked
+                  ? Theme.of(context).primaryColor
+                  : Colors.grey),
             ),
           ),
         ),
@@ -63,12 +68,9 @@ class _HabitCheckboxState extends State<HabitCheckbox>
   }
 
   _onTap() {
-    setState(() {
-      checked = !checked;
-    });
-
-    if (checked) {
+    if (!widget.checked) {
       controller.forward(from: 0.0);
     }
+    widget.onChanged(!widget.checked);
   }
 }

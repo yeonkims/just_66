@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:just66/presentation/utils/navigation_helpers.dart';
+import 'package:just66/data/models/record.dart';
+import 'package:just66/logic/repositories/habit_respository.dart';
+import 'package:provider/provider.dart';
+import '../../utils/navigation_helpers.dart';
 import '../../../data/models/habit.dart';
-import '../../extra_widgets/habit_checkbox.dart';
+import '../../extra_widgets/animated_checkbox.dart';
 import '../habit_detail_page.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
@@ -41,7 +44,20 @@ class HabitWidget extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  HabitCheckbox(checked: habit.completed),
+                  AnimatedCheckbox(
+                    checked: habit.isTodayRecorded(),
+                    onChanged: (checked) {
+                      if (checked) {
+                        final newRecord = Record(
+                            recordDate: DateTime.now(), habitId: habit.id!);
+                        Provider.of<HabitRepository>(context, listen: false)
+                            .createRecord(newRecord);
+                      } else {
+                        Provider.of<HabitRepository>(context, listen: false)
+                            .deleteRecord(habit.todaysRecord!.id!);
+                      }
+                    },
+                  ),
                   _habitData(context),
                   _rightArrow(),
                 ],
@@ -77,9 +93,12 @@ class HabitWidget extends StatelessWidget {
               child: Text(
                 habit.title,
                 style: Theme.of(context).textTheme.headline6?.copyWith(
-                    fontWeight: (habit.completed
+                    fontWeight: (habit.isTodayRecorded()
                         ? FontWeight.normal
-                        : FontWeight.bold)),
+                        : FontWeight.bold),
+                    decoration: habit.isTodayRecorded()
+                        ? TextDecoration.lineThrough
+                        : TextDecoration.none),
               ),
             ),
           ),
@@ -87,8 +106,8 @@ class HabitWidget extends StatelessWidget {
             width: double.infinity,
             height: 18,
             child: LiquidLinearProgressIndicator(
-              value: habit.days / 66,
-              valueColor: AlwaysStoppedAnimation((habit.completed
+              value: habit.recordedDays / 66,
+              valueColor: AlwaysStoppedAnimation((habit.isTodayRecorded()
                   ? Theme.of(context).primaryColor
                   : Colors.grey)),
               backgroundColor: Colors.white,
@@ -97,7 +116,7 @@ class HabitWidget extends StatelessWidget {
               borderRadius: 12.0,
               direction: Axis.horizontal,
               center: Text(
-                "${habit.days} days",
+                "${habit.recordedDays} days",
                 style: Theme.of(context).textTheme.caption,
               ),
             ),

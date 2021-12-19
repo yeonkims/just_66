@@ -1,10 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:just66/logic/repositories/habit_respository.dart';
 import 'package:just66/presentation/extra_widgets/custom_title.dart';
-import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:provider/provider.dart';
 
 import '../../../data/models/habit.dart';
@@ -29,7 +27,11 @@ class _HabitListPageState extends State<HabitListPage> {
     return SafeArea(
       child: Column(
         children: [
-          HabitListSummaryCard(),
+          StreamBuilder<List<Habit>>(
+              stream: Provider.of<HabitRepository>(context).getAllHabits(),
+              builder: (context, snapshot) {
+                return HabitListSummaryCard(habits: snapshot.data ?? []);
+              }),
           CustomTitle(title: "My habit list"),
           Expanded(child: _habitList()),
         ],
