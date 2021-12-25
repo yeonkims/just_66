@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 import '../../utils/navigation_helpers.dart';
 import '../../../data/models/habit.dart';
 import '../../extra_widgets/animated_checkbox.dart';
-import '../habit_detail_page.dart';
+import '../habit_detail/habit_detail_page.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
 class HabitWidget extends StatelessWidget {

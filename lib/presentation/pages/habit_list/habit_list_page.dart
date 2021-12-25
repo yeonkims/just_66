@@ -8,7 +8,7 @@ import 'package:just66/presentation/utils/constants.dart';
 import 'package:provider/provider.dart';
 
 import '../../../data/models/habit.dart';
-import '../habit_list_page/habit_widget.dart';
+import '../habit_list/habit_widget.dart';
 import 'habit_list_summary_card.dart';
 
 class HabitListPage extends StatefulWidget {

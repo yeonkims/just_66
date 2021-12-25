@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:just66/presentation/pages/new_habit_page.dart';
-import 'package:just66/presentation/pages/success_habit_page.dart';
+import 'package:just66/presentation/pages/habit_list/habit_list_page.dart';
+import 'package:just66/presentation/pages/new_habit/new_habit_page.dart';
+import 'package:just66/presentation/pages/completed_habits/completed_habits_page.dart';
 import 'package:just66/presentation/utils/navigation_helpers.dart';
-import '../pages/habit_list_page/habit_list_page.dart';
-import '../pages/under_construction_page.dart';
+import '../pages/under_construction/under_construction_page.dart';
 
 class MainNavBar extends StatefulWidget {
   const MainNavBar({Key? key}) : super(key: key);
