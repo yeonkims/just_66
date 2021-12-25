@@ -1,11 +1,13 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, iterable_contains_unrelated_type
 
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:just66/data/models/record.dart';
 import 'package:just66/logic/repositories/habit_respository.dart';
 import 'package:just66/presentation/extra_widgets/custom_title.dart';
+import 'package:just66/presentation/utils/datetime_helpers.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/models/habit.dart';
@@ -22,38 +24,27 @@ class HabitDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: _backgroundGradient(context),
+        color: Colors.grey[200],
         child: SafeArea(
           child: Center(
             child: Stack(
               children: [
-                Column(
-                  children: [
-                    _progressBar(context),
-                    _subTitle(context),
-                    CustomTitle(title: "Breakdown"),
-                    _breakdownGrid()
-                  ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      _progressBar(context),
+                      _subTitle(context),
+                      CustomTitle(title: "Breakdown"),
+                      _breakdownGrid(context),
+                    ],
+                  ),
                 ),
                 _headerButtons(context),
               ],
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  BoxDecoration _backgroundGradient(BuildContext context) {
-    return BoxDecoration(
-      gradient: LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          Colors.white,
-          Colors.white,
-          Theme.of(context).primaryColor.withOpacity(0.3)
-        ],
       ),
     );
   }
@@ -75,32 +66,49 @@ class HabitDetailPage extends StatelessWidget {
     );
   }
 
-  Padding _breakdownGrid() {
+  Padding _breakdownGrid(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: SizedBox(
         width: double.infinity,
         child: Card(
           color: Color.fromRGBO(80, 80, 80, 1),
           child: Padding(
             padding: const EdgeInsets.all(4.0),
-            child: GridView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate:
-                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 11),
-              itemBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: index % 3 == 0
-                          ? Colors.red
-                          : Theme.of(context).primaryColor),
-                ),
-              ),
-              itemCount: habit.recordedDays,
-            ),
+            child: StreamBuilder<List<Record>>(
+                stream: Provider.of<HabitRepository>(context)
+                    .getRecordsForHabit(habit.id!),
+                builder: (context, snapshot) {
+                  final records = snapshot.data ?? [];
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 11),
+                    itemBuilder: (context, index) {
+                      final currentDay =
+                          habit.startDate.add(Duration(days: index));
+                      final currentDayHasRecord = records
+                          .map((record) => record.recordDate)
+                          .toList()
+                          .any((recordDate) {
+                        return currentDay.toYMD() == recordDate.toYMD();
+                      });
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: !currentDayHasRecord
+                                  ? Colors.red
+                                  : Theme.of(context).primaryColor),
+                        ),
+                      );
+                    },
+                    itemCount:
+                        DateTime.now().difference(habit.startDate).inDays + 1,
+                  );
+                }),
           ),
         ),
       ),

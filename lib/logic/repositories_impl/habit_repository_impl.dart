@@ -1,3 +1,5 @@
+import 'package:just66/presentation/utils/datetime_helpers.dart';
+
 import '../../data/models/habit.dart';
 import '../../data/models/record.dart';
 import '../repositories/habit_respository.dart';
@@ -23,11 +25,10 @@ class HabitRepositoryImpl extends HabitRepository {
     return db.createRawQuery(["habit", "record"], """
     SELECT *, 
     (SELECT COUNT(record_id) FROM record r2 WHERE habit_id = r2.habit_fid) AS recorded_days
-    FROM habit LEFT JOIN record r1 ON habit_id = r1.habit_fid AND DATE(record_date) = DATE('now')
+    FROM habit LEFT JOIN record r1 ON habit_id = r1.habit_fid AND DATE(record_date) = '${DateTime.now().toYMD()}'
     """).mapToList((habitMap) {
-      print(habitMap);
       return Habit.fromMap(habitMap);
-    });
+    }).asBroadcastStream();
   }
 
   @override
@@ -41,11 +42,13 @@ class HabitRepositoryImpl extends HabitRepository {
   }
 
   @override
-  Stream<List<Record>> getAllRecords() {
-    return db.createRawQuery(
-        ["record", "habit"], "SELECT * FROM record").mapToList((recordMap) {
-      print(recordMap);
+  Stream<List<Record>> getRecordsForHabit(int habitId) {
+    return db.createRawQuery([
+      "record",
+      "habit"
+    ], "SELECT * FROM record WHERE habit_fid = $habitId").mapToList(
+        (recordMap) {
       return Record.fromMap(recordMap);
-    });
+    }).asBroadcastStream();
   }
 }

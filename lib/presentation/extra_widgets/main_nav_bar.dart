@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:just66/presentation/pages/new_habit_page.dart';
+import 'package:just66/presentation/pages/success_habit_page.dart';
 import 'package:just66/presentation/utils/navigation_helpers.dart';
 import '../pages/habit_list_page/habit_list_page.dart';
 import '../pages/under_construction_page.dart';
@@ -26,7 +27,7 @@ class _MainNavBarState extends State<MainNavBar> {
         children: [
           HabitListPage(),
           UnderConstructionPage(),
-          UnderConstructionPage(),
+          SuccessHabitPage(),
           UnderConstructionPage(),
         ],
       ),
@@ -64,7 +65,7 @@ class _MainNavBarState extends State<MainNavBar> {
         ),
         BottomNavigationBarItem(
           icon: FaIcon(FontAwesomeIcons.trophy),
-          label: 'Badges',
+          label: 'Success',
         ),
         BottomNavigationBarItem(
           icon: FaIcon(FontAwesomeIcons.cog),

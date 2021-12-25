@@ -9,6 +9,7 @@ environment:
   sdk: ">=2.15.0 <3.0.0"
 
 dependencies:
+  card_swiper: ^1.0.4
   cupertino_icons: ^1.0.2
   equatable: ^2.0.3
   flutter:

@@ -8,7 +8,7 @@ abstract class HabitRepository {
 
   Stream<List<Habit>> getAllHabits();
 
-  Stream<List<Record>> getAllRecords();
+  Stream<List<Record>> getRecordsForHabit(int habitId);
 
   Future<int> createRecord(Record record);
 
