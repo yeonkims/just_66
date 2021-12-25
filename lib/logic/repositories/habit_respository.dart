@@ -1,3 +1,5 @@
+import 'package:just66/data/models/graph_point.dart';
+
 import '../../data/models/habit.dart';
 import '../../data/models/record.dart';
 
@@ -17,4 +19,6 @@ abstract class HabitRepository {
   Future<int> deleteRecord(int id);
 
   Future<void> completeHabit(int habitId);
+
+  Stream<List<GraphPoint>> getRecordTotalsByDay(int range);
 }

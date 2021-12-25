@@ -1,3 +1,4 @@
+import 'package:just66/data/models/graph_point.dart';
 import 'package:just66/presentation/utils/datetime_helpers.dart';
 
 import '../../data/models/habit.dart';
@@ -73,5 +74,34 @@ class HabitRepositoryImpl extends HabitRepository {
   Future<void> completeHabit(int habitId) {
     return db.executeAndTrigger(
         ["habit"], "UPDATE habit SET completed = 1 WHERE habit_id = $habitId");
+  }
+
+  @override
+  Stream<List<GraphPoint>> getRecordTotalsByDay(int range) {
+    DateTime endRange = DateTime.now().subtract(Duration(days: range));
+    return db.createRawQuery([
+      "record",
+      "habit"
+    ], "SELECT COUNT(*) as 'total_records', record_date FROM record WHERE '${endRange.toYMD()}' < record_date GROUP BY record_date").mapToList(
+        (map) {
+      return GraphPoint.fromMap(map);
+    }).map((graphPoints) {
+      List<GraphPoint> fullGraphPoints = [];
+      for (int i = range - 1; i >= 0; i--) {
+        DateTime rangeDate = DateTime.now().subtract(Duration(days: i));
+        bool hasGraphPoint = graphPoints.any((existingGraphPoint) {
+          return rangeDate.toYMD() == existingGraphPoint.recordDate.toYMD();
+        });
+        if (!hasGraphPoint) {
+          fullGraphPoints
+              .add(GraphPoint(recordDate: rangeDate, totalRecords: 0));
+        } else {
+          fullGraphPoints.add(graphPoints.firstWhere((existingGraphPoint) {
+            return rangeDate.toYMD() == existingGraphPoint.recordDate.toYMD();
+          }));
+        }
+      }
+      return fullGraphPoints;
+    }).asBroadcastStream();
   }
 }

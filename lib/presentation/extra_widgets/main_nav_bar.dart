@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:just66/presentation/pages/habit_list/habit_list_page.dart';
 import 'package:just66/presentation/pages/new_habit/new_habit_page.dart';
 import 'package:just66/presentation/pages/completed_habits/completed_habits_page.dart';
+import 'package:just66/presentation/pages/progress/progress_page.dart';
 import 'package:just66/presentation/utils/navigation_helpers.dart';
 import '../pages/under_construction/under_construction_page.dart';
 
@@ -26,7 +27,7 @@ class _MainNavBarState extends State<MainNavBar> {
         index: index,
         children: [
           HabitListPage(),
-          UnderConstructionPage(),
+          ProgressPage(),
           SuccessHabitPage(),
           UnderConstructionPage(),
         ],
@@ -61,11 +62,11 @@ class _MainNavBarState extends State<MainNavBar> {
         ),
         BottomNavigationBarItem(
           icon: FaIcon(FontAwesomeIcons.chartBar),
-          label: 'History',
+          label: 'Progress',
         ),
         BottomNavigationBarItem(
           icon: FaIcon(FontAwesomeIcons.trophy),
-          label: 'Success',
+          label: 'Completed',
         ),
         BottomNavigationBarItem(
           icon: FaIcon(FontAwesomeIcons.cog),
