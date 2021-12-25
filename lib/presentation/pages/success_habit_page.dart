@@ -55,7 +55,8 @@ class CustomCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: StreamBuilder<List<Habit>>(
-              stream: Provider.of<HabitRepository>(context).getAllHabits(),
+              stream:
+                  Provider.of<HabitRepository>(context).getCompletedHabits(),
               builder: (context, habitsSnapshot) {
                 if (!habitsSnapshot.hasData) {
                   return Center(child: CircularProgressIndicator());

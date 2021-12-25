@@ -6,11 +6,15 @@ abstract class HabitRepository {
 
   Future<int> deleteHabit(int id);
 
-  Stream<List<Habit>> getAllHabits();
+  Stream<List<Habit>> getCompletedHabits();
+
+  Stream<List<Habit>> getActiveHabits();
 
   Stream<List<Record>> getRecordsForHabit(int habitId);
 
   Future<int> createRecord(Record record);
 
   Future<int> deleteRecord(int id);
+
+  Future<void> completeHabit(int habitId);
 }

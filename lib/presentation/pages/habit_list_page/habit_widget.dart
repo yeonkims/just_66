@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:just66/data/models/record.dart';
 import 'package:just66/logic/repositories/habit_respository.dart';
+import 'package:just66/presentation/extra_widgets/info_dialog.dart';
+import 'package:just66/presentation/extra_widgets/pop_in_transition.dart';
+import 'package:just66/presentation/extra_widgets/yes_no_dialog.dart';
+import 'package:just66/presentation/utils/constants.dart';
 import 'package:provider/provider.dart';
 import '../../utils/navigation_helpers.dart';
 import '../../../data/models/habit.dart';
@@ -50,10 +54,7 @@ class HabitWidget extends StatelessWidget {
                     checked: habit.isTodayRecorded(),
                     onChanged: (checked) {
                       if (checked) {
-                        final newRecord = Record(
-                            recordDate: DateTime.now(), habitId: habit.id!);
-                        Provider.of<HabitRepository>(context, listen: false)
-                            .createRecord(newRecord);
+                        _createRecord(context);
                       } else {
                         Provider.of<HabitRepository>(context, listen: false)
                             .deleteRecord(habit.todaysRecord!.id!);
@@ -69,6 +70,32 @@ class HabitWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _createRecord(BuildContext context) {
+    final newRecord = Record(recordDate: DateTime.now(), habitId: habit.id!);
+    Provider.of<HabitRepository>(context, listen: false)
+        .createRecord(newRecord);
+
+    final isFinalRecord = habit.recordedDays == Constants.NUMBER_OF_HABITS - 1;
+    if (isFinalRecord) {
+      _completeHabit(context);
+    }
+  }
+
+  void _completeHabit(BuildContext context) {
+    Provider.of<HabitRepository>(context, listen: false)
+        .completeHabit(habit.id!);
+    showDialog(
+        context: context,
+        builder: (ctx) {
+          return PopInTransition(
+            child: InfoDialog(
+              title: "Congraturations!",
+              hint: "앞으로는 success페이지에 있을것",
+            ),
+          );
+        });
   }
 
   Padding _rightArrow() {
@@ -108,7 +135,7 @@ class HabitWidget extends StatelessWidget {
             width: double.infinity,
             height: 18,
             child: LiquidLinearProgressIndicator(
-              value: habit.recordedDays / 66,
+              value: habit.recordedDays / Constants.NUMBER_OF_HABITS,
               valueColor: AlwaysStoppedAnimation((habit.isTodayRecorded()
                   ? Theme.of(context).primaryColor
                   : Colors.grey)),

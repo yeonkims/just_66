@@ -20,7 +20,6 @@ class HabitRepositoryImpl extends HabitRepository {
     return db.delete("habit", where: "habit_id = $id");
   }
 
-  @override
   Stream<List<Habit>> getAllHabits() {
     return db.createRawQuery(["habit", "record"], """
     SELECT *, 
@@ -50,5 +49,29 @@ class HabitRepositoryImpl extends HabitRepository {
         (recordMap) {
       return Record.fromMap(recordMap);
     }).asBroadcastStream();
+  }
+
+  @override
+  Stream<List<Habit>> getActiveHabits() {
+    return getAllHabits().map((allHabits) {
+      return allHabits.where((anyHabit) {
+        return !anyHabit.completed;
+      }).toList();
+    });
+  }
+
+  @override
+  Stream<List<Habit>> getCompletedHabits() {
+    return getAllHabits().map((allHabits) {
+      return allHabits.where((anyHabit) {
+        return anyHabit.completed;
+      }).toList();
+    });
+  }
+
+  @override
+  Future<void> completeHabit(int habitId) {
+    return db.executeAndTrigger(
+        ["habit"], "UPDATE habit SET completed = 1 WHERE habit_id = $habitId");
   }
 }
