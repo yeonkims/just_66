@@ -94,13 +94,17 @@ class HabitDetailPage extends StatelessWidget {
                           .any((recordDate) {
                         return currentDay.toYMD() == recordDate.toYMD();
                       });
+                      final currentDayIsToday =
+                          currentDay.toYMD() == DateTime.now().toYMD();
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: !currentDayHasRecord
-                                  ? Colors.red
+                                  ? (currentDayIsToday
+                                      ? Colors.white
+                                      : Colors.red)
                                   : Theme.of(context).primaryColor),
                         ),
                       );
