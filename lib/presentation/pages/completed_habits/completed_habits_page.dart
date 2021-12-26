@@ -24,21 +24,27 @@ class _SuccessHabitPageState extends State<SuccessHabitPage> {
       backgroundColor: Colors.grey[200],
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            StreamBuilder<List<Habit>>(
-                stream:
-                    Provider.of<HabitRepository>(context).getCompletedHabits(),
-                builder: (context, snapshot) {
-                  String count = snapshot.data?.length.toString() ?? "...";
-                  return PageHeader(
-                      title: "Completed habits",
-                      content: "The number of habits you completed is $count");
-                }),
-            CustomTitle(title: "Habits you made"),
-            Expanded(child: CustomCard())
-          ]),
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: StreamBuilder<List<Habit>>(
+                    stream: Provider.of<HabitRepository>(context)
+                        .getCompletedHabits(),
+                    builder: (context, snapshot) {
+                      String count = snapshot.data?.length.toString() ?? "...";
+                      return PageHeader(
+                          title: "Completed habits",
+                          content: count == 0
+                              ? "Coming soon..."
+                              : "You have completed $count habits!");
+                    }),
+              ),
+              Expanded(child: CustomCard())
+            ],
+          ),
         ),
       ),
     );

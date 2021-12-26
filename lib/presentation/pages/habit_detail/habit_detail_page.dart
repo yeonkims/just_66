@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:just66/data/models/record.dart';
 import 'package:just66/logic/repositories/habit_respository.dart';
 import 'package:just66/presentation/extra_widgets/custom_title.dart';
+import 'package:just66/presentation/extra_widgets/pop_in_transition.dart';
 import 'package:just66/presentation/extra_widgets/yes_no_dialog.dart';
 import 'package:just66/presentation/utils/constants.dart';
 import 'package:just66/presentation/utils/datetime_helpers.dart';
@@ -38,6 +39,19 @@ class HabitDetailPage extends StatelessWidget {
                     _subTitle(context),
                     _habitDuration(context),
                     CustomTitle(title: "Breakdown"),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Column(
+                        children: [
+                          _breakdownLegend(context,
+                              color: Theme.of(context).primaryColor,
+                              message: "Everyday you complete this habit"),
+                          _breakdownLegend(context,
+                              color: Colors.red,
+                              message: "Everyday you failed this habit"),
+                        ],
+                      ),
+                    ),
                     _breakdownGrid(context),
                   ],
                 ),
@@ -47,6 +61,36 @@ class HabitDetailPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Row _breakdownLegend(
+    BuildContext context, {
+    required Color color,
+    required String message,
+  }) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          width: 8,
+          height: 8,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: color,
+          ),
+        ),
+        Flexible(
+          child: Text(
+            " - $message",
+            style: Theme.of(context).textTheme.caption?.copyWith(
+                  color: color,
+                  fontStyle: FontStyle.italic,
+                ),
+            softWrap: true,
+          ),
+        ),
+      ],
     );
   }
 
@@ -78,15 +122,17 @@ class HabitDetailPage extends StatelessWidget {
             showDialog(
                 context: context,
                 builder: (ctx) {
-                  return YesNoDialog(
-                    title: "Warning!",
-                    hint:
-                        "Are you sure you want to delete ${habit.title}?\n\nThis cannot be undone.",
-                    onYes: () {
-                      Provider.of<HabitRepository>(context, listen: false)
-                          .deleteHabit(habit.id!);
-                      Navigator.pop(context);
-                    },
+                  return PopInTransition(
+                    child: YesNoDialog(
+                      title: "Warning!",
+                      hint:
+                          "Are you sure you want to delete ${habit.title}?\n\nThis cannot be undone.",
+                      onYes: () {
+                        Provider.of<HabitRepository>(context, listen: false)
+                            .deleteHabit(habit.id!);
+                        Navigator.pop(context);
+                      },
+                    ),
                   );
                 });
           },

@@ -6,10 +6,14 @@ import 'package:just66/logic/repositories/habit_respository.dart';
 import 'package:provider/provider.dart';
 
 class AnimatedCheckbox extends StatefulWidget {
-  const AnimatedCheckbox(
-      {required this.checked, required this.onChanged, Key? key})
-      : super(key: key);
+  const AnimatedCheckbox({
+    required this.checked,
+    required this.onChanged,
+    this.isLarge = false,
+    Key? key,
+  }) : super(key: key);
   final bool checked;
+  final bool isLarge;
   final Function(bool) onChanged;
   //todo: add onTap;
 
@@ -56,7 +60,7 @@ class _AnimatedCheckboxState extends State<AnimatedCheckbox>
               (widget.checked
                   ? FontAwesomeIcons.solidCheckCircle
                   : FontAwesomeIcons.checkCircle),
-              size: sizeAnimation.value * 12 + 16,
+              size: sizeAnimation.value * 12 + (widget.isLarge ? 22 : 16),
               color: (widget.checked
                   ? Theme.of(context).primaryColor
                   : Colors.grey),

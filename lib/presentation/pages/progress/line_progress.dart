@@ -41,6 +41,7 @@ class _LineProgressState extends State<LineProgress> {
   }
 
   LineChartData mainData() {
+    bool hasTooManyPoints = widget.graphPoints.length > 300;
     return LineChartData(
       gridData: FlGridData(
         show: true,
@@ -72,7 +73,7 @@ class _LineProgressState extends State<LineProgress> {
               fontWeight: FontWeight.bold,
               fontSize: 16),
           getTitles: (value) {
-            if (value == _getMaxX() / 2) {
+            if (value == (_getMaxX() ~/ 2)) {
               return 'Time';
             }
             return '';
@@ -107,9 +108,9 @@ class _LineProgressState extends State<LineProgress> {
       lineBarsData: [
         LineChartBarData(
           spots: drawSpots,
-          isCurved: true,
+          isCurved: hasTooManyPoints ? false : true,
           colors: gradientColors,
-          barWidth: 5,
+          barWidth: hasTooManyPoints ? 1 : 3,
           isStrokeCapRound: true,
           dotData: FlDotData(
             show: false,

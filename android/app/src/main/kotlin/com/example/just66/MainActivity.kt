@@ -1,4 +1,4 @@
-package com.example.just66
+package com.ykimsjk.just66
 
 import io.flutter.embedding.android.FlutterActivity
 

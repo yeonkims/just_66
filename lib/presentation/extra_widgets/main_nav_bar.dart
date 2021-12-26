@@ -34,8 +34,7 @@ class _MainNavBarState extends State<MainNavBar> {
         ],
       ),
       floatingActionButton: _floatingActionButton(),
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniCenterDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: _bottomNavBar(context),
     );
   }
@@ -50,7 +49,6 @@ class _MainNavBarState extends State<MainNavBar> {
         color: Colors.white,
         size: 20,
       ),
-      mini: true,
     );
   }
 

@@ -4,22 +4,36 @@ import 'package:flutter/material.dart';
 
 class CustomTitle extends StatelessWidget {
   final String title;
+  final bool hasBottomBorder;
 
   const CustomTitle({
     required this.title,
+    this.hasBottomBorder = false,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: Padding(
-        padding: EdgeInsets.only(top: 20.0),
-        child: Text(
-          title,
-          textAlign: TextAlign.start,
-          style: Theme.of(context).textTheme.headline6,
+    return Container(
+      decoration: !hasBottomBorder
+          ? null
+          : BoxDecoration(
+              border: BorderDirectional(
+                bottom: BorderSide(
+                  color: Colors.black54,
+                  width: 0.5,
+                ),
+              ),
+            ),
+      child: SizedBox(
+        width: double.infinity,
+        child: Padding(
+          padding: EdgeInsets.only(top: 20.0),
+          child: Text(
+            title,
+            textAlign: TextAlign.start,
+            style: Theme.of(context).textTheme.headline6,
+          ),
         ),
       ),
     );

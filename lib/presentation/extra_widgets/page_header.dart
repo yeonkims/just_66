@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 
 class PageHeader extends StatelessWidget {
   String title;
-  String content;
-  PageHeader({Key? key, required this.title, required this.content})
-      : super(key: key);
+  String? content;
+  PageHeader({Key? key, required this.title, this.content}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +14,14 @@ class PageHeader extends StatelessWidget {
           title,
           style: Theme.of(context).textTheme.headline5,
         ),
-        Text(
-          content,
-          style: Theme.of(context).textTheme.headline6?.copyWith(
-                color: Colors.grey[600],
+        content == null
+            ? Container()
+            : Text(
+                content!,
+                style: Theme.of(context).textTheme.headline6?.copyWith(
+                      color: Colors.grey[600],
+                    ),
               ),
-        ),
       ],
     );
   }

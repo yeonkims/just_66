@@ -32,8 +32,10 @@ class _SuccessHabitPageState extends State<ProgressPage> {
           padding: const EdgeInsets.all(16.0),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            PageHeader(title: "Progress", content: "Check your progress"),
-            CustomTitle(title: "Progress"),
+            PageHeader(
+                title: "Progress",
+                content:
+                    "Check your progress over time, see how far you've come!"),
             Expanded(
               child: Center(
                 child: StreamBuilder<List<GraphPoint>>(
@@ -56,7 +58,7 @@ class _SuccessHabitPageState extends State<ProgressPage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
+              padding: const EdgeInsets.only(bottom: 16.0),
               child: Row(
                 children: [
                   toggleButton("Week", 0),

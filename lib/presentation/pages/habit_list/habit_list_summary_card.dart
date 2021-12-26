@@ -32,12 +32,16 @@ class HabitListSummaryCard extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: Text(
-                      "Welcome!",
+                      "Today's status",
                       style: Theme.of(context).textTheme.headline6,
                     ),
                   ),
                   Text(
-                      "The right one is the water of the habit you filled today. "),
+                    "View your daily status and try to reach 100% each day!",
+                    style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                          color: Colors.grey.shade700,
+                        ),
+                  ),
                 ],
               ),
             )),

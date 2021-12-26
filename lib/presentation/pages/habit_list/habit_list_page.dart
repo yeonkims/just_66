@@ -28,7 +28,7 @@ class _HabitListPageState extends State<HabitListPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           children: [
             _mainLabel(context),
@@ -47,7 +47,7 @@ class _HabitListPageState extends State<HabitListPage> {
 
   Padding _mainLabel(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
+      padding: const EdgeInsets.only(bottom: 20, top: 16),
       child: SizedBox(
         width: double.infinity,
         child: Column(
@@ -81,9 +81,13 @@ class _HabitListPageState extends State<HabitListPage> {
         } else {
           final habits = habitsSnapshot.data!;
           return ListView.builder(
-              itemCount: habits.length,
-              itemBuilder: (context, index) =>
-                  HabitWidget(habit: habits[index]));
+              itemCount: habits.length + 1,
+              itemBuilder: (context, index) {
+                if (index == habits.length) {
+                  return Padding(padding: EdgeInsets.only(bottom: 32));
+                }
+                return HabitWidget(habit: habits[index]);
+              });
         }
       },
     );

@@ -50,17 +50,7 @@ class HabitWidget extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  AnimatedCheckbox(
-                    checked: habit.isTodayRecorded(),
-                    onChanged: (checked) {
-                      if (checked) {
-                        _createRecord(context);
-                      } else {
-                        Provider.of<HabitRepository>(context, listen: false)
-                            .deleteRecord(habit.todaysRecord!.id!);
-                      }
-                    },
-                  ),
+                  _checkbox(context),
                   _habitData(context),
                   _rightArrow(),
                 ],
@@ -69,6 +59,21 @@ class HabitWidget extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  AnimatedCheckbox _checkbox(BuildContext context) {
+    return AnimatedCheckbox(
+      checked: habit.isTodayRecorded(),
+      isLarge: true,
+      onChanged: (checked) {
+        if (checked) {
+          _createRecord(context);
+        } else {
+          Provider.of<HabitRepository>(context, listen: false)
+              .deleteRecord(habit.todaysRecord!.id!);
+        }
+      },
     );
   }
 

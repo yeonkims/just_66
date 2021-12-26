@@ -29,7 +29,6 @@ class HabitRepositoryImpl extends HabitRepository {
     (SELECT COUNT(record_id) FROM record r2 WHERE habit_id = r2.habit_fid) AS recorded_days
     FROM habit LEFT JOIN record r1 ON habit_id = r1.habit_fid AND DATE(record_date) = '${DateTime.now().toYMD()}'
     """).mapToList((habitMap) {
-      print(habitMap);
       return Habit.fromMap(habitMap);
     }).asBroadcastStream();
   }
@@ -117,27 +116,35 @@ class HabitRepositoryImpl extends HabitRepository {
 
   @override
   Future<void> createTestData() async {
-    await _createFakeHabit("Winning Lost Cities", 66);
-    await _createFakeHabit("Exercise", 26);
-    await _createFakeHabit("Piano", 66);
-    await _createFakeHabit("Running", 30);
-    await _createFakeHabit("Reading", 12);
+    print(
+        "-------- CREATING TEST DATA! dont't forget to comment the line for next time :)");
+    await _createFakeHabit("Wake up by 7AM", 66);
+    await _createFakeHabit("Cold Shower", 66);
+    await _createFakeHabit("Piano", 56);
+    await _createFakeHabit("Run 5K", 30);
+    await _createFakeHabit("Read 10 pages", 12);
   }
 
   Future<void> _createFakeHabit(String name, int numberOfRecords) async {
+    int totalNumberOfDays = (numberOfRecords * 1.5).toInt();
     Habit newHabit = Habit(
       title: name,
       startDate: DateTime.now().subtract(
         Duration(
-          days: numberOfRecords * 2,
+          days: totalNumberOfDays - 1,
         ),
       ),
     );
     int newHabitId = await createHabit(newHabit);
-    for (int j = numberOfRecords - 1; j >= 0; j--) {
+    List<int> allPossibleDays =
+        List<int>.generate(totalNumberOfDays, (index) => index);
+
+    allPossibleDays.shuffle();
+
+    for (int j = 0; j <= numberOfRecords; j++) {
       Record newRecord = Record(
         recordDate: DateTime.now().subtract(
-          Duration(days: j * 2),
+          Duration(days: allPossibleDays[j]),
         ),
         habitId: newHabitId,
       );

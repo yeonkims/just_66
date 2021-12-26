@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:just66/data/models/habit.dart';
 import 'package:just66/logic/repositories/habit_respository.dart';
 import 'package:just66/presentation/extra_widgets/custom_title.dart';
+import 'package:just66/presentation/extra_widgets/page_header.dart';
 import 'package:just66/presentation/utils/navigation_helpers.dart';
 import 'package:provider/provider.dart';
 
@@ -25,12 +26,18 @@ class _NewHabitPageState extends State<NewHabitPage> {
       body: SafeArea(
         child: Form(
           key: _formKey,
-          child: Column(
-            children: [
-              CustomTitle(title: "Add your new habit!"),
-              _habitInfoField(context),
-              _createHabitButton(),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                PageHeader(
+                  title: "Create your new habit",
+                  content: "And get started in a few seconds!",
+                ),
+                _habitInfoField(context),
+                _createHabitButton(),
+              ],
+            ),
           ),
         ),
       ),
@@ -54,7 +61,7 @@ class _NewHabitPageState extends State<NewHabitPage> {
             }
           },
           child: Text(
-            "Start making your new habit!",
+            "Start your new habit!",
             style: TextStyle(color: Colors.white),
           ),
         ),
@@ -64,7 +71,12 @@ class _NewHabitPageState extends State<NewHabitPage> {
 
   Padding _habitInfoField(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(
+        left: 8.0,
+        right: 8,
+        bottom: 8,
+        top: 20,
+      ),
       child: Container(
         child: Padding(
           padding: const EdgeInsets.symmetric(
