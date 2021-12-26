@@ -21,4 +21,6 @@ abstract class HabitRepository {
   Future<void> completeHabit(int habitId);
 
   Stream<List<GraphPoint>> getRecordTotalsByDay(int range);
+
+  Future<void> deleteAll();
 }

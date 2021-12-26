@@ -35,19 +35,26 @@ class _SuccessHabitPageState extends State<ProgressPage> {
             PageHeader(title: "Progress", content: "Check your progress"),
             CustomTitle(title: "Progress"),
             Expanded(
-                child: Center(
-                    child: StreamBuilder<List<GraphPoint>>(
-                        stream: Provider.of<HabitRepository>(context)
-                            .getRecordTotalsByDay(toggleButtonDays[index]),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return CircularProgressIndicator();
-                          }
-                          List<GraphPoint> graphPoints = snapshot.data!;
-                          return LineProgress(
-                            graphPoints: graphPoints,
-                          );
-                        }))),
+              child: Center(
+                child: StreamBuilder<List<GraphPoint>>(
+                  stream: Provider.of<HabitRepository>(context)
+                      .getRecordTotalsByDay(toggleButtonDays[index]),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (snapshot.data!
+                        .every((graphPoint) => graphPoint.totalRecords == 0)) {
+                      return Center(child: Text("You have no progress yet."));
+                    } else {
+                      List<GraphPoint> graphPoints = snapshot.data!;
+                      return LineProgress(
+                        graphPoints: graphPoints,
+                      );
+                    }
+                  },
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Row(

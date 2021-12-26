@@ -131,9 +131,6 @@ class _LineProgressState extends State<LineProgress> {
       double xPostion = gp.recordDate.difference(xZeroDate).inDays.toDouble();
       return FlSpot(xPostion, gp.totalRecords.toDouble());
     }).toList();
-
-    print(spots);
-
     return spots;
   }
 

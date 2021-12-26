@@ -6,7 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class LocalDatabase {
-  final int dbVersion = 3;
+  final int dbVersion = 4;
 
   static Database? _db;
 
@@ -70,6 +70,17 @@ class LocalDatabase {
             habit_fid INTEGER,
             FOREIGN KEY (habit_fid) REFERENCES habit(habit_id) ON DELETE CASCADE
           )""");
+    }
+    if (version == 4) {
+      await db.execute("DROP TABLE habit");
+      await db.execute("""
+        CREATE TABLE habit(
+          habit_id INTEGER PRIMARY KEY,
+          title TEXT,
+          start_date TEXT,
+          end_date TEXT
+        )
+      """);
     }
   }
 

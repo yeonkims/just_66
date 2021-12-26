@@ -46,10 +46,8 @@ class _NewHabitPageState extends State<NewHabitPage> {
         child: ElevatedButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              final newHabit = Habit(
-                  title: _controller.text,
-                  startDate: DateTime.now(),
-                  completed: false);
+              final newHabit =
+                  Habit(title: _controller.text, startDate: DateTime.now());
               Provider.of<HabitRepository>(context, listen: false)
                   .createHabit(newHabit);
               context.closePage();

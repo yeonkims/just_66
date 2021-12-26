@@ -31,22 +31,39 @@ class HabitDetailPage extends StatelessWidget {
           child: Center(
             child: Stack(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      _progressBar(context),
-                      _subTitle(context),
-                      CustomTitle(title: "Breakdown"),
-                      _breakdownGrid(context),
-                    ],
-                  ),
+                ListView(
+                  padding: EdgeInsets.all(8.0),
+                  children: [
+                    _progressBar(context),
+                    _subTitle(context),
+                    _habitDuration(context),
+                    CustomTitle(title: "Breakdown"),
+                    _breakdownGrid(context),
+                  ],
                 ),
                 _headerButtons(context),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Padding _habitDuration(BuildContext context) {
+    String dateFormat = "yyyy/M/d";
+    String endDate = habit.endDate?.format(dateFormat) ?? "Today";
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "${habit.startDate.format(dateFormat)} - $endDate",
+            style: Theme.of(context).textTheme.caption,
+            textAlign: TextAlign.center,
+          )
+        ],
       ),
     );
   }
@@ -79,7 +96,7 @@ class HabitDetailPage extends StatelessWidget {
     );
   }
 
-  Padding _breakdownGrid(BuildContext context) {
+  Widget _breakdownGrid(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: SizedBox(
@@ -137,6 +154,7 @@ class HabitDetailPage extends StatelessWidget {
       tag: habit,
       child: Text(
         habit.title,
+        textAlign: TextAlign.center,
         style: Theme.of(context).textTheme.headline6,
       ),
     );

@@ -7,6 +7,7 @@ import 'package:just66/logic/repositories/habit_respository.dart';
 import 'package:just66/presentation/extra_widgets/animated_checkbox.dart';
 import 'package:just66/presentation/extra_widgets/custom_title.dart';
 import 'package:just66/presentation/extra_widgets/page_header.dart';
+import 'package:just66/presentation/extra_widgets/yes_no_dialog.dart';
 import 'package:just66/presentation/pages/settings/settings_option.dart';
 import 'package:provider/provider.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -20,6 +21,7 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   String? versionNumber;
+  bool buttonChecked = false;
 
   @override
   void initState() {
@@ -47,15 +49,39 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: "초기화",
                 child: ElevatedButton(
                   child: Text("Clear"),
-                  onPressed: () {},
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (ctx) {
+                        return YesNoDialog(
+                          title: "Warning!",
+                          hint:
+                              "Are you sure you want to delete ALL your data?!\n\nThis cannot be undone.",
+                          onYes: () {
+                            Provider.of<HabitRepository>(context, listen: false)
+                                .deleteAll();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("Successfully deleted!"),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
                 ),
               ),
               CustomTitle(title: "Notifications"),
               SettingsOption(
                 title: "PUSH 알림",
                 child: AnimatedCheckbox(
-                  checked: false,
-                  onChanged: (check) {},
+                  checked: buttonChecked,
+                  onChanged: (checked) {
+                    setState(() {
+                      buttonChecked = !buttonChecked;
+                    });
+                  },
                 ),
               ),
               CustomTitle(title: "About"),

@@ -10,10 +10,12 @@ class Habit extends Equatable {
   final int? id;
   final String title;
   final DateTime startDate;
-  final bool completed;
+  final DateTime? endDate;
 
   final Record? todaysRecord;
   final int recordedDays;
+
+  bool get completed => endDate != null;
 
   bool isTodayRecorded() {
     return todaysRecord != null;
@@ -22,21 +24,21 @@ class Habit extends Equatable {
   Habit({
     this.id,
     required this.title,
-    required this.completed,
     required this.startDate,
+    this.endDate,
     this.todaysRecord,
     this.recordedDays = 0,
   });
 
   @override
-  List<Object?> get props => [id, title, startDate, completed];
+  List<Object?> get props => [id, title, startDate, endDate];
 
   Map<String, dynamic> toMap() {
     return {
       'habit_id': id,
       'title': title,
       'start_date': startDate.toYMD(),
-      'completed': completed ? 1 : 0,
+      'end_date': endDate?.toYMD(),
     };
   }
 
@@ -45,7 +47,9 @@ class Habit extends Equatable {
       id: map['habit_id']?.toInt(),
       title: map['title'] ?? '',
       startDate: DateTimeHelpers.fromYMD(map['start_date']),
-      completed: map['completed'] == 1,
+      endDate: map['end_date'] == null
+          ? null
+          : DateTimeHelpers.fromYMD(map['end_date']),
       todaysRecord: map['record_id'] == null ? null : Record.fromMap(map),
       recordedDays: map['recorded_days'],
     );
