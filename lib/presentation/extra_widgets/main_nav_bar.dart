@@ -6,6 +6,7 @@ import 'package:just66/presentation/pages/habit_list/habit_list_page.dart';
 import 'package:just66/presentation/pages/new_habit/new_habit_page.dart';
 import 'package:just66/presentation/pages/completed_habits/completed_habits_page.dart';
 import 'package:just66/presentation/pages/progress/progress_page.dart';
+import 'package:just66/presentation/pages/settings/settings_page.dart';
 import 'package:just66/presentation/utils/navigation_helpers.dart';
 import '../pages/under_construction/under_construction_page.dart';
 
@@ -29,7 +30,7 @@ class _MainNavBarState extends State<MainNavBar> {
           HabitListPage(),
           ProgressPage(),
           SuccessHabitPage(),
-          UnderConstructionPage(),
+          SettingsPage(),
         ],
       ),
       floatingActionButton: _floatingActionButton(),

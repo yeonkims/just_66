@@ -6,6 +6,7 @@ import 'package:just66/data/models/graph_point.dart';
 import 'package:just66/data/models/habit.dart';
 import 'package:just66/logic/repositories/habit_respository.dart';
 import 'package:just66/presentation/extra_widgets/custom_title.dart';
+import 'package:just66/presentation/extra_widgets/page_header.dart';
 import 'package:just66/presentation/pages/progress/line_progress.dart';
 import 'package:provider/provider.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -31,14 +32,7 @@ class _SuccessHabitPageState extends State<ProgressPage> {
           padding: const EdgeInsets.all(16.0),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(
-              "Progress",
-              style: Theme.of(context).textTheme.headline5,
-            ),
-            Text("Check your progress here!",
-                style: Theme.of(context).textTheme.headline6?.copyWith(
-                      color: Colors.grey[600],
-                    )),
+            PageHeader(title: "Progress", content: "Check your progress"),
             CustomTitle(title: "Progress"),
             Expanded(
                 child: Center(

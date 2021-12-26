@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:just66/data/models/habit.dart';
 import 'package:just66/logic/repositories/habit_respository.dart';
 import 'package:just66/presentation/extra_widgets/custom_title.dart';
+import 'package:just66/presentation/extra_widgets/page_header.dart';
 import 'package:provider/provider.dart';
 
 class SuccessHabitPage extends StatefulWidget {
@@ -24,14 +25,9 @@ class _SuccessHabitPageState extends State<SuccessHabitPage> {
           padding: const EdgeInsets.all(16.0),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(
-              "Successed habits",
-              style: Theme.of(context).textTheme.headline5,
-            ),
-            Text("Check your successed habits here!",
-                style: Theme.of(context).textTheme.headline6?.copyWith(
-                      color: Colors.grey[600],
-                    )),
+            PageHeader(
+                title: "Completed habits",
+                content: "Check your completed habits here"),
             CustomTitle(title: "Habits you made"),
             Expanded(child: CustomCard())
           ]),
