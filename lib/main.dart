@@ -4,6 +4,7 @@ import 'logic/repositories/habit_respository.dart';
 import 'logic/repositories_impl/habit_repository_impl.dart';
 import 'package:sqlbrite/sqlbrite.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:flutter_launcher_icons/android.dart';
 import 'package:provider/provider.dart';
 import 'presentation/extra_widgets/main_nav_bar.dart';
 
@@ -11,10 +12,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   Database db = await LocalDatabase().db;
-  BriteDatabase briteDatabase = BriteDatabase(db);
+  BriteDatabase briteDatabase = BriteDatabase(db, logger: null);
 
   HabitRepositoryImpl habitRepositoryImpl =
       HabitRepositoryImpl(db: briteDatabase);
+
+  // await habitRepositoryImpl.cereateTestData();
 
   runApp(MyApp(
     habitRepository: habitRepositoryImpl,
