@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:just66/data/models/habit.dart';
+import 'package:just66/presentation/utils/message_helpers.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
 class HabitListSummaryCard extends StatelessWidget {
@@ -32,12 +33,12 @@ class HabitListSummaryCard extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: Text(
-                      "Today's status",
+                      context.messages.todaysStatus,
                       style: Theme.of(context).textTheme.headline6,
                     ),
                   ),
                   Text(
-                    "View your daily status and try to reach 100% each day!",
+                    context.messages.todaysStatusMessage,
                     style: Theme.of(context).textTheme.bodyText2?.copyWith(
                           color: Colors.grey.shade700,
                         ),
@@ -52,12 +53,10 @@ class HabitListSummaryCard extends StatelessWidget {
                 height: 100,
                 child: LiquidCircularProgressIndicator(
                   value: _todayCompletedPercentage(),
-                  backgroundColor: Colors
-                      .white, // Defaults to the current Theme's backgroundColor.
+                  backgroundColor: Colors.white,
                   borderColor: Colors.lightBlue,
                   borderWidth: 2.5,
-                  direction: Axis
-                      .vertical, // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right). Defaults to Axis.vertical.
+                  direction: Axis.vertical,
                   center: Text(
                     "${(_todayCompletedPercentage() * 100).toInt()}%",
                     style: Theme.of(context).textTheme.headline6,

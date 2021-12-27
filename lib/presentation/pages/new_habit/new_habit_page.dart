@@ -5,6 +5,7 @@ import 'package:just66/data/models/habit.dart';
 import 'package:just66/logic/repositories/habit_respository.dart';
 import 'package:just66/presentation/extra_widgets/custom_title.dart';
 import 'package:just66/presentation/extra_widgets/page_header.dart';
+import 'package:just66/presentation/utils/message_helpers.dart';
 import 'package:just66/presentation/utils/navigation_helpers.dart';
 import 'package:provider/provider.dart';
 
@@ -29,10 +30,11 @@ class _NewHabitPageState extends State<NewHabitPage> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 PageHeader(
-                  title: "Create your new habit",
-                  content: "And get started in a few seconds!",
+                  title: context.messages.newHabitPageTitle,
+                  content: context.messages.newHabitPageHint,
                 ),
                 _habitInfoField(context),
                 _createHabitButton(),
@@ -61,7 +63,7 @@ class _NewHabitPageState extends State<NewHabitPage> {
             }
           },
           child: Text(
-            "Start your new habit!",
+            context.messages.createNewHabitButton,
             style: TextStyle(color: Colors.white),
           ),
         ),
@@ -89,13 +91,13 @@ class _NewHabitPageState extends State<NewHabitPage> {
             textCapitalization: TextCapitalization.words,
             validator: (value) {
               if (value?.isEmpty ?? true) {
-                return "Write your new habit!";
+                return context.messages.habitNameEmptyError;
               }
               return null;
             },
             decoration: InputDecoration(
               border: InputBorder.none,
-              label: Text("Habit name"),
+              label: Text(context.messages.habitNameLabel),
               contentPadding: EdgeInsets.zero,
             ),
             style: Theme.of(context).textTheme.headline5,

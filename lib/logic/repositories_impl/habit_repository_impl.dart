@@ -119,7 +119,7 @@ class HabitRepositoryImpl extends HabitRepository {
     print(
         "-------- CREATING TEST DATA! dont't forget to comment the line for next time :)");
     await _createFakeHabit("Wake up by 7AM", 66);
-    await _createFakeHabit("Cold Shower", 66);
+    await _createFakeHabit("Cold Shower", 65);
     await _createFakeHabit("Piano", 56);
     await _createFakeHabit("Run 5K", 30);
     await _createFakeHabit("Read 10 pages", 12);

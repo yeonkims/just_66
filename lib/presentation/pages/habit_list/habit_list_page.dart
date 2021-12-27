@@ -5,6 +5,7 @@ import 'package:just66/data/models/record.dart';
 import 'package:just66/logic/repositories/habit_respository.dart';
 import 'package:just66/presentation/extra_widgets/custom_title.dart';
 import 'package:just66/presentation/utils/constants.dart';
+import 'package:just66/presentation/utils/message_helpers.dart';
 import 'package:provider/provider.dart';
 
 import '../../../data/models/habit.dart';
@@ -37,7 +38,7 @@ class _HabitListPageState extends State<HabitListPage> {
                 builder: (context, snapshot) {
                   return HabitListSummaryCard(habits: snapshot.data ?? []);
                 }),
-            CustomTitle(title: "My habit list"),
+            CustomTitle(title: context.messages.currentlyActiveHabits),
             Expanded(child: _habitList()),
           ],
         ),
@@ -54,13 +55,14 @@ class _HabitListPageState extends State<HabitListPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Make your habits,",
+              context.messages.habitListPageTitle(Constants.NUMBER_OF_HABITS),
               style: Theme.of(context).textTheme.headline5?.copyWith(
                     color: Colors.grey[600],
                   ),
             ),
             Text(
-              "just in ${Constants.NUMBER_OF_HABITS} days!",
+              context.messages
+                  .habitListPageSubtitle(Constants.NUMBER_OF_HABITS),
               style: Theme.of(context).textTheme.headline5,
             ),
           ],
@@ -76,8 +78,7 @@ class _HabitListPageState extends State<HabitListPage> {
         if (!habitsSnapshot.hasData) {
           return Center(child: CircularProgressIndicator());
         } else if (habitsSnapshot.data!.isEmpty) {
-          return Center(
-              child: Text("You have no habits yet. Please create one."));
+          return Center(child: Text(context.messages.noHabitsMessage));
         } else {
           final habits = habitsSnapshot.data!;
           return ListView.builder(

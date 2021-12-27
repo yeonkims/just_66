@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:just66/presentation/utils/message_helpers.dart';
 
 class InfoDialog extends StatelessWidget {
   String title;
@@ -28,9 +29,8 @@ class InfoDialog extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             minimumSize: Size(90, 35),
           ),
-          child: Text(buttonText ?? 'OK'),
+          child: Text(buttonText ?? context.messages.ok),
         )
-        //_yesNoButtons(context),
       ],
     );
   }

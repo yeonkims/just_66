@@ -29,21 +29,29 @@ void main() async {
       await Preferences().getPreference(Preferences.SELECTED_LANGUAGE);
   Messages messages = Messages.loadMessages(currentLanguageCode);
 
-  // if (kDebugMode) {
-  //   await habitRepositoryImpl.createTestData();
-  // }
+  String fontFamily = currentLanguageCode == "KO" ? "CookieRun" : "Poppins";
+
+  if (kDebugMode) {
+    await habitRepositoryImpl.createTestData();
+  }
 
   runApp(MyApp(
     habitRepository: habitRepositoryImpl,
     messages: messages,
+    fontFamily: fontFamily,
   ));
 }
 
 class MyApp extends StatelessWidget {
   final HabitRepository habitRepository;
   final Messages messages;
+  final String fontFamily;
 
-  const MyApp({required this.habitRepository, required this.messages, Key? key})
+  const MyApp(
+      {required this.habitRepository,
+      required this.messages,
+      required this.fontFamily,
+      Key? key})
       : super(key: key);
 
   @override
@@ -58,7 +66,7 @@ class MyApp extends StatelessWidget {
         title: 'Just 66',
         theme: ThemeData(
           primarySwatch: Colors.lightBlue,
-          fontFamily: "Poppins",
+          fontFamily: fontFamily,
         ),
         home: const MainNavBar(),
       ),

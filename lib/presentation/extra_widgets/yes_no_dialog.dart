@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:just66/presentation/utils/message_helpers.dart';
 
 class YesNoDialog extends StatelessWidget {
   String title;
@@ -40,7 +41,7 @@ class YesNoDialog extends StatelessWidget {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text(noText ?? 'No'),
+                child: Text(noText ?? context.messages.no),
               ),
             ),
           ),
@@ -52,7 +53,7 @@ class YesNoDialog extends StatelessWidget {
                   onYes();
                   Navigator.pop(context);
                 },
-                child: Text(yesText ?? 'Yes'),
+                child: Text(yesText ?? context.messages.yes),
               ),
             ),
           ),

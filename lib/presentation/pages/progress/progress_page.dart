@@ -8,6 +8,7 @@ import 'package:just66/logic/repositories/habit_respository.dart';
 import 'package:just66/presentation/extra_widgets/custom_title.dart';
 import 'package:just66/presentation/extra_widgets/page_header.dart';
 import 'package:just66/presentation/pages/progress/line_progress.dart';
+import 'package:just66/presentation/utils/message_helpers.dart';
 import 'package:provider/provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -33,9 +34,8 @@ class _SuccessHabitPageState extends State<ProgressPage> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             PageHeader(
-                title: "Progress",
-                content:
-                    "Check your progress over time, see how far you've come!"),
+                title: context.messages.progressPageTitle,
+                content: context.messages.progressPageSubtitle),
             Expanded(
               child: Center(
                 child: StreamBuilder<List<GraphPoint>>(
@@ -46,7 +46,8 @@ class _SuccessHabitPageState extends State<ProgressPage> {
                       return Center(child: CircularProgressIndicator());
                     } else if (snapshot.data!
                         .every((graphPoint) => graphPoint.totalRecords == 0)) {
-                      return Center(child: Text("You have no progress yet."));
+                      return Center(
+                          child: Text(context.messages.noProgressMessage));
                     } else {
                       List<GraphPoint> graphPoints = snapshot.data!;
                       return LineProgress(
@@ -61,9 +62,9 @@ class _SuccessHabitPageState extends State<ProgressPage> {
               padding: const EdgeInsets.only(bottom: 16.0),
               child: Row(
                 children: [
-                  toggleButton("Week", 0),
-                  toggleButton("Month", 1),
-                  toggleButton("Year", 2),
+                  toggleButton(context.messages.toggleWeek, 0),
+                  toggleButton(context.messages.toggleMonth, 1),
+                  toggleButton(context.messages.toggleYear, 2),
                 ],
               ),
             ),

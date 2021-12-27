@@ -42,7 +42,7 @@ class Language {
 class _SettingsPageState extends State<SettingsPage> {
   String? versionNumber;
   bool buttonChecked = false;
-  String? currentLanguage;
+  String? currentLanguageCode;
 
   Preferences preferences = Preferences();
 
@@ -60,7 +60,7 @@ class _SettingsPageState extends State<SettingsPage> {
   _loadPreferences() async {
     buttonChecked =
         await preferences.getPreference(Preferences.IS_NOTIFICATIONS_ENABLED);
-    currentLanguage =
+    currentLanguageCode =
         await preferences.getPreference(Preferences.SELECTED_LANGUAGE);
     setState(() {});
   }
@@ -76,10 +76,10 @@ class _SettingsPageState extends State<SettingsPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               PageHeader(
-                title: context.messages.settingsTitle,
+                title: context.messages.settingsPageTitle,
               ),
               _dataOptions(context),
-              kDebugMode ? _languageOptions(context) : Container(),
+              _languageOptions(context),
               kDebugMode ? _notificationOptions(context) : Container(),
               _aboutOptions(),
             ],
@@ -93,21 +93,15 @@ class _SettingsPageState extends State<SettingsPage> {
     return Column(
       children: [
         CustomTitle(
-          title: "Language",
+          title: context.messages.language,
           hasBottomBorder: true,
         ),
         SettingsOption(
           title: context.messages.changeLanguage,
           child: DropdownButton<String>(
-            value: currentLanguage,
-            onChanged: (value) {
-              preferences.updatePreference(
-                  Preferences.SELECTED_LANGUAGE, value);
-              context.showSimpleSnackbar(
-                  context.messages.changeLanugageCompleteText);
-              setState(() {
-                currentLanguage = value;
-              });
+            value: currentLanguageCode,
+            onChanged: (newLanguageCode) {
+              _updateLanguage(newLanguageCode);
             },
             items: Constants.ALL_LANGUAGES.map((language) {
               return DropdownMenuItem<String>(
@@ -119,6 +113,18 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ],
     );
+  }
+
+  void _updateLanguage(String? newLanguageCode) {
+    if (newLanguageCode != null && newLanguageCode != currentLanguageCode) {
+      preferences.updatePreference(
+          Preferences.SELECTED_LANGUAGE, newLanguageCode);
+      context.showSimpleSnackbar(
+          Messages.loadMessages(newLanguageCode).changeLanugageCompleteText);
+      setState(() {
+        currentLanguageCode = newLanguageCode;
+      });
+    }
   }
 
   Column _dataOptions(BuildContext context) {
@@ -138,13 +144,13 @@ class _SettingsPageState extends State<SettingsPage> {
                 builder: (ctx) {
                   return PopInTransition(
                     child: YesNoDialog(
-                      title: "Warning!",
-                      hint:
-                          "Are you sure you want to delete ALL your data?!\n\nThis cannot be undone.",
+                      title: context.messages.deleteDataDialogTitle,
+                      hint: context.messages.deleteDataDialogHint,
                       onYes: () {
                         Provider.of<HabitRepository>(context, listen: false)
                             .deleteAll();
-                        context.showSimpleSnackbar("Successfully deleted!");
+                        context.showSimpleSnackbar(
+                            context.messages.deleteDialogSuccess);
                       },
                     ),
                   );
@@ -161,12 +167,12 @@ class _SettingsPageState extends State<SettingsPage> {
     return Column(
       children: [
         CustomTitle(
-          title: "About",
+          title: context.messages.about,
           hasBottomBorder: true,
         ),
         SettingsOption(
-          title: "Version",
-          child: Text(versionNumber ?? "Loading..."),
+          title: context.messages.version,
+          child: Text(versionNumber ?? context.messages.loading),
         ),
       ],
     );
@@ -177,11 +183,11 @@ class _SettingsPageState extends State<SettingsPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomTitle(
-          title: "Notifications",
+          title: context.messages.notifications,
           hasBottomBorder: true,
         ),
         SettingsOption(
-          title: "PUSH 알림",
+          title: context.messages.enableNotifications,
           child: AnimatedCheckbox(
             checked: buttonChecked,
             onChanged: (checked) {
@@ -194,7 +200,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         ),
         Text(
-          "놓친 습관이 있으면 22시에 알람을 보내줄게요.",
+          context.messages.notificationsGuide,
           style: Theme.of(context).textTheme.caption?.copyWith(
                 fontStyle: FontStyle.italic,
               ),

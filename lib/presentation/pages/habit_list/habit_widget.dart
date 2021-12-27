@@ -8,6 +8,7 @@ import 'package:just66/presentation/extra_widgets/info_dialog.dart';
 import 'package:just66/presentation/extra_widgets/pop_in_transition.dart';
 import 'package:just66/presentation/extra_widgets/yes_no_dialog.dart';
 import 'package:just66/presentation/utils/constants.dart';
+import 'package:just66/presentation/utils/message_helpers.dart';
 import 'package:provider/provider.dart';
 import '../../utils/navigation_helpers.dart';
 import '../../../data/models/habit.dart';
@@ -96,8 +97,8 @@ class HabitWidget extends StatelessWidget {
         builder: (ctx) {
           return PopInTransition(
             child: InfoDialog(
-              title: "Congraturations!",
-              hint: "앞으로는 success페이지에 있을것",
+              title: context.messages.congratulationsDialogTitle,
+              hint: context.messages.congratulationsDialogHint,
             ),
           );
         });
@@ -150,7 +151,7 @@ class HabitWidget extends StatelessWidget {
               borderRadius: 12.0,
               direction: Axis.horizontal,
               center: Text(
-                "${habit.recordedDays} days",
+                context.messages.habitDaysCount(habit.recordedDays),
                 style: Theme.of(context).textTheme.caption,
               ),
             ),

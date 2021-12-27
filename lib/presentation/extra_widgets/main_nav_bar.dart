@@ -7,6 +7,7 @@ import 'package:just66/presentation/pages/new_habit/new_habit_page.dart';
 import 'package:just66/presentation/pages/completed_habits/completed_habits_page.dart';
 import 'package:just66/presentation/pages/progress/progress_page.dart';
 import 'package:just66/presentation/pages/settings/settings_page.dart';
+import 'package:just66/presentation/utils/message_helpers.dart';
 import 'package:just66/presentation/utils/navigation_helpers.dart';
 import '../pages/under_construction/under_construction_page.dart';
 
@@ -57,19 +58,19 @@ class _MainNavBarState extends State<MainNavBar> {
       items: [
         BottomNavigationBarItem(
           icon: FaIcon(FontAwesomeIcons.list),
-          label: 'My habits',
+          label: context.messages.navBarHabits,
         ),
         BottomNavigationBarItem(
           icon: FaIcon(FontAwesomeIcons.chartBar),
-          label: 'Progress',
+          label: context.messages.progressPageTitle,
         ),
         BottomNavigationBarItem(
           icon: FaIcon(FontAwesomeIcons.trophy),
-          label: 'Completed',
+          label: context.messages.completedHabitsPageTitle,
         ),
         BottomNavigationBarItem(
           icon: FaIcon(FontAwesomeIcons.cog),
-          label: 'Settings',
+          label: context.messages.settingsPageTitle,
         ),
       ],
       currentIndex: index,

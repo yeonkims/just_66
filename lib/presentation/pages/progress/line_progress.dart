@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:just66/data/models/graph_point.dart';
+import 'package:just66/presentation/utils/message_helpers.dart';
 
 class LineProgress extends StatefulWidget {
   LineProgress({Key? key, required this.graphPoints}) : super(key: key);
@@ -74,7 +75,7 @@ class _LineProgressState extends State<LineProgress> {
               fontSize: 16),
           getTitles: (value) {
             if (value == (_getMaxX() ~/ 2)) {
-              return 'Time';
+              return context.messages.time;
             }
             return '';
           },

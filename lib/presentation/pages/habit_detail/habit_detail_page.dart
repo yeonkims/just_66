@@ -11,6 +11,7 @@ import 'package:just66/presentation/extra_widgets/pop_in_transition.dart';
 import 'package:just66/presentation/extra_widgets/yes_no_dialog.dart';
 import 'package:just66/presentation/utils/constants.dart';
 import 'package:just66/presentation/utils/datetime_helpers.dart';
+import 'package:just66/presentation/utils/message_helpers.dart';
 import 'package:provider/provider.dart';
 
 import '../../../data/models/habit.dart';
@@ -38,17 +39,17 @@ class HabitDetailPage extends StatelessWidget {
                     _progressBar(context),
                     _subTitle(context),
                     _habitDuration(context),
-                    CustomTitle(title: "Breakdown"),
+                    CustomTitle(title: context.messages.breakdown),
                     Padding(
                       padding: const EdgeInsets.only(left: 8.0),
                       child: Column(
                         children: [
                           _breakdownLegend(context,
                               color: Theme.of(context).primaryColor,
-                              message: "Everyday you complete this habit"),
+                              message: context.messages.successfulDayTip),
                           _breakdownLegend(context,
                               color: Colors.red,
-                              message: "Everyday you failed this habit"),
+                              message: context.messages.unsuccessfulDayTip),
                         ],
                       ),
                     ),
@@ -96,7 +97,8 @@ class HabitDetailPage extends StatelessWidget {
 
   Padding _habitDuration(BuildContext context) {
     String dateFormat = "yyyy/M/d";
-    String endDate = habit.endDate?.format(dateFormat) ?? "Today";
+    String endDate =
+        habit.endDate?.format(dateFormat) ?? context.messages.today;
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: Row(
@@ -124,9 +126,8 @@ class HabitDetailPage extends StatelessWidget {
                 builder: (ctx) {
                   return PopInTransition(
                     child: YesNoDialog(
-                      title: "Warning!",
-                      hint:
-                          "Are you sure you want to delete ${habit.title}?\n\nThis cannot be undone.",
+                      title: context.messages.deleteHabitDialogTitle,
+                      hint: context.messages.deleteHabitDialogHint(habit.title),
                       onYes: () {
                         Provider.of<HabitRepository>(context, listen: false)
                             .deleteHabit(habit.id!);
@@ -213,7 +214,8 @@ class HabitDetailPage extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           Text(
-            "${habit.recordedDays}/${Constants.NUMBER_OF_HABITS}\ndays",
+            context.messages.habitDaysSummary(
+                habit.recordedDays, Constants.NUMBER_OF_HABITS),
             style: Theme.of(context).textTheme.headline5,
             textAlign: TextAlign.center,
           ),

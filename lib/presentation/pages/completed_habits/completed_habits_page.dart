@@ -4,9 +4,9 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:just66/data/models/habit.dart';
 import 'package:just66/logic/repositories/habit_respository.dart';
-import 'package:just66/presentation/extra_widgets/custom_title.dart';
 import 'package:just66/presentation/extra_widgets/page_header.dart';
 import 'package:just66/presentation/pages/habit_detail/habit_detail_page.dart';
+import 'package:just66/presentation/utils/message_helpers.dart';
 import 'package:just66/presentation/utils/navigation_helpers.dart';
 import 'package:provider/provider.dart';
 
@@ -36,10 +36,10 @@ class _SuccessHabitPageState extends State<SuccessHabitPage> {
                     builder: (context, snapshot) {
                       String count = snapshot.data?.length.toString() ?? "...";
                       return PageHeader(
-                          title: "Completed habits",
-                          content: count == 0
-                              ? "Coming soon..."
-                              : "You have completed $count habits!");
+                          title: context.messages.completedHabitsPageTitle,
+                          content: count == "0"
+                              ? context.messages.comingSoon
+                              : context.messages.youHaveXHabits(count));
                     }),
               ),
               Expanded(child: CustomCard())
@@ -72,7 +72,7 @@ class CustomCard extends StatelessWidget {
                   return Center(child: CircularProgressIndicator());
                 } else if (habitsSnapshot.data!.isEmpty) {
                   return Center(
-                      child: Text("You have no completed habits yet."));
+                      child: Text(context.messages.noCompletedHabits));
                 } else {
                   final habits = habitsSnapshot.data!;
                   return Swiper(
